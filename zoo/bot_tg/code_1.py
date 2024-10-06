@@ -39,22 +39,12 @@ animal = c.fetchone()
 
 
 class reg(StatesGroup):
-    first = State()
-
-class reg_two(StatesGroup):
+    first_big = State()
     first_small = State()
+    first_big_and_small = State()
+    second_big_and_small = State()
+
     
-class reg_three(StatesGroup):
-    first_big_small = State()
-    second = State()
-    
-    
-qr = qrcode.QRCode(
-    version=1,
-    error_correction=qrcode.constants.ERROR_CORRECT_L,
-    box_size=10,
-    border=4,
-)
 
 
 # Функция для получения данных о животном по id 
@@ -189,117 +179,65 @@ async def buy_1(message: Message):
 
 
 
+
+async def create_and_send_qr(answer: str, types_ticket: str, message: types.Message):
+    qr = qrcode.QRCode(version=1, box_size=10, border=5)
+    now = datetime.now()
+    timestamp = now.strftime("%Y%m%d_%H%M%S")
+    filename = f"qr_{timestamp}.jpg"
+    qr.add_data(answer)
+    qr.make(fit=True)
+    img = qr.make_image(fill_color="black", back_color="white")
+    img.save(filename, 'JPEG')
+    await message.answer(answer)
+    await message.answer_photo(photo=types.FSInputFile(filename))
+    if os.path.exists(filename):
+        os.remove(filename)
+
+
 @dp.callback_query(F.data == 'big')
-async def big_ticket(callback:CallbackQuery, state: FSMContext):
-    await state.set_state(reg.first)
+async def ticket(callback:CallbackQuery, state: FSMContext):
+    await state.set_state(reg.first_big)
     await callback.answer()
     await callback.message.answer('Сколько билетов вы хотите взять?')
 
-@dp.message(reg.first)
-async def reg_ticket_big(message: Message, state: FSMContext):
-        await state.update_data(first = message.text)
-        now = datetime.now()
-        day = now.day
-        month = now.month
-        current_time = now.strftime("%H:%M:%S")
-        data = await state.get_data()
-        number = data['first']
-        answer = (f'Билет куплен {day}.{month} в {current_time}.\n'
-                f'Кол-во билетов {number}, тип: взрослый')
-        qr.add_data(answer)
-        qr.make(fit=True)
-        img = qr.make_image(fill_color="black", back_color="white")
-        timestamp = now.strftime("%Y%m%d_%H%M%S")
-        filename = f"qr_{timestamp}.jpg"
-        img.save(filename, 'JPEG')
-        
-        cd.execute('''INSERT INTO qrcode (filename) VALUES (?)''', (filename,))
-
-
-        await message.answer(answer)
-        await message.answer_photo(photo=types.FSInputFile(filename))
-        
-        os.remove(filename)
-
-        await state.clear()
-        
-        
-@dp.callback_query(F.data == 'small')
-async def small_ticket(callback:CallbackQuery, state: FSMContext):
-    await state.set_state(reg_two.first_small)
-    await callback.answer()
-    await callback.message.answer('Сколько билетов вы хотите взять?')
-
-@dp.message(reg_two.first_small)
-async def reg_ticket_small(message: Message, state: FSMContext):
-        await state.update_data(first = message.text)
-        now = datetime.now()
-        day = now.day
-        month = now.month
-        current_time = now.strftime("%H:%M:%S")
-        data = await state.get_data()
-        number = data['first']
-        answer_2 = (f'Билет куплен {day}.{month} в {current_time}.\n'
-                f'Кол-во билетов {number}, тип: детский')
-        qr.add_data(answer_2)
-        qr.make(fit=True)
-        img = qr.make_image(fill_color="black", back_color="white")
-        timestamp = now.strftime("%Y%m%d_%H%M%S")
-        filename = f"qr_{timestamp}.jpg"
-        img.save(filename, 'JPEG')
-        
-        cd.execute('''INSERT INTO qrcode (filename) VALUES (?)''', (filename,))
-
-
-        await message.answer(answer_2)
-        await message.answer_photo(photo=types.FSInputFile(filename))
-        
-        os.remove(filename)
-        await state.clear()
-    
-    
-@dp.callback_query(F.data == 'big_and_small')
-async def big_small_ticket(callback:CallbackQuery, state: FSMContext):
-    await state.set_state(reg_three.first_big_small)
-    await callback.answer()
-    await callback.message.answer(f"Сколько билетов типа 'взрослый' вы хотите взять?")
-    
-@dp.message(reg_three.first_big_small)
-async def big_small_ticket_reg(message: Message, state: FSMContext):
-    await state.set_state(reg_three.second)
-    await state.update_data(first_big_small = message.text)
-    await message.answer(f"Сколько билетов типа 'детский' вы хотите взять?")
-    
-    
-    
-
-@dp.message(reg_three.second)
+@dp.message(reg.first_big)
 async def reg_ticket(message: Message, state: FSMContext):
-        await state.update_data(first = message.text)
-        await state.update_data(second=message.text)
-        now = datetime.now()
-        day = now.day
-        month = now.month
-        current_time = now.strftime("%H:%M:%S")
-        data = await state.get_data()
-        number = data['first_big_small']
-        number_2 = data['second']
-        answer_3 = (f'Билет куплен {day}.{month} в {current_time}.\n'
-                f'Кол-во билетов {number}, тип: взрослый; {number_2}, тип: детский')
-        qr.add_data(answer_3)
-        qr.make(fit=True)
-        img = qr.make_image(fill_color="black", back_color="white")
-        timestamp = now.strftime("%Y%m%d_%H%M%S")
-        filename_3 = f"qr_{timestamp}.jpg"
-        img.save(filename_3, 'JPEG')
-        
-        cd.execute('''INSERT INTO qrcode (filename) VALUES (?)''', (filename_3,))
+    await state.update_data(first=message.text)
+    data = await state.get_data()
+    number = data['first']
+    now = datetime.now()
+    day, month, current_time = now.day, now.month, now.strftime("%H:%M:%S")
+    
+    answer = (f'Билет куплен {day}.{month} в {current_time}.\n'
+              f'Кол-во билетов {number}, тип: взрослый')
+    
+    await create_and_send_qr(answer, 'взрослый', message)
+    await state.clear()
 
-        await message.answer(answer_3)
-        await message.answer_photo(photo=types.FSInputFile(filename_3))
-        await state.clear()
-        
-        os.remove(filename_3)
+
+@dp.callback_query(F.data == 'small')
+async def ticket(callback: CallbackQuery, state: FSMContext):
+    await state.set_state(reg.first_small)
+    await callback.answer()
+    await callback.message.answer('Сколько билетов вы хотите взять?')
+
+@dp.message(reg.first_small)
+async def reg_ticket(message: Message, state: FSMContext):
+    await state.update_data(first=message.text)
+    data = await state.get_data()
+    number = data['first']
+    now = datetime.now()
+    day, month, current_time = now.day, now.month, now.strftime("%H:%M:%S")
+
+    answer = (f'Билет куплен {day}.{month} в {current_time}.\n'
+              f'Кол-во билетов {number}, тип: детский')
+    
+    await create_and_send_qr(answer, 'детский', message)
+    await state.clear()
+
+
+
 
         
     
