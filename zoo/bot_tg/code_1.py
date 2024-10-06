@@ -16,6 +16,7 @@ from aiogram.types import CallbackQuery
 from datetime import datetime
 from datetime import time
 import qrcode
+import random
 
 API_TOKEN = '7308111652:AAGFNTaxBFebMaW5YnljR44Ph3aaS2jw0Wg'
 
@@ -126,14 +127,6 @@ async def Slon_back_to_menu(callback: CallbackQuery):
     await start(callback.message)
 
 
-
-
-
-
-
-
-
-
 @dp.callback_query(F.data == 'begemot')
 async def Begemot(callback: CallbackQuery):
     photo_path = animal[7]
@@ -180,12 +173,13 @@ async def buy_1(message: Message):
 
 
 
-async def create_and_send_qr(answer: str, types_ticket: str, message: types.Message):
+async def create_and_send_qr(answer: str, types_ticket: str, code_number: str, message: types.Message):
     qr = qrcode.QRCode(version=1, box_size=10, border=5)
     now = datetime.now()
+    code_number = random.randint(100000000000000, 999999999999999)
     timestamp = now.strftime("%Y%m%d_%H%M%S")
     filename = f"qr_{timestamp}.jpg"
-    qr.add_data(answer)
+    qr.add_data(answer, code_number)
     qr.make(fit=True)
     img = qr.make_image(fill_color="black", back_color="white")
     img.save(filename, 'JPEG')
@@ -203,16 +197,16 @@ async def ticket(callback:CallbackQuery, state: FSMContext):
 
 @dp.message(reg.first_big)
 async def reg_ticket(message: Message, state: FSMContext):
+    code_number = random.randint(100000000000000, 999999999999999)
     await state.update_data(first=message.text)
     data = await state.get_data()
-    number = data['first']
+    one = data['first']
     now = datetime.now()
     day, month, current_time = now.day, now.month, now.strftime("%H:%M:%S")
-    
     answer = (f'Билет куплен {day}.{month} в {current_time}.\n'
-              f'Кол-во билетов {number}, тип: взрослый')
+              f'Кол-во билетов {one}, тип: взрослый')
     
-    await create_and_send_qr(answer, 'взрослый', message)
+    await create_and_send_qr(answer, 'взрослый', code_number, message)
     await state.clear()
 
 
@@ -224,21 +218,47 @@ async def ticket(callback: CallbackQuery, state: FSMContext):
 
 @dp.message(reg.first_small)
 async def reg_ticket(message: Message, state: FSMContext):
+    code_number = random.randint(100000000000000, 999999999999999)
     await state.update_data(first=message.text)
     data = await state.get_data()
-    number = data['first']
+    one = data['first']
     now = datetime.now()
     day, month, current_time = now.day, now.month, now.strftime("%H:%M:%S")
 
     answer = (f'Билет куплен {day}.{month} в {current_time}.\n'
-              f'Кол-во билетов {number}, тип: детский')
+              f'Кол-во билетов {one}, тип: детский')
     
-    await create_and_send_qr(answer, 'детский', message)
+    await create_and_send_qr(answer, 'детский', code_number, message)
     await state.clear()
 
 
+@dp.callback_query(F.data == 'big_and_small')
+async def ticket(callback: CallbackQuery, state: FSMContext):
+    await state.set_state(reg.first_big_and_small)
+    await callback.answer()
+    await callback.message.answer("Сколько билетов типа 'взрослый' вы хотите взять?.")
 
+@dp.message(reg.first_big_and_small)
+async def reg_ticket(message: Message, state: FSMContext):
+    await state.update_data(first=message.text)
+    await state.set_state(reg.second_big_and_small)
+    await message.answer("Сколько билетов типа 'детский' вы хотите взять?.")
 
+@dp.message(reg.second_big_and_small)
+async def reg_ticket_second(message: Message, state: FSMContext):
+    code_number = random.randint(100000000000000, 999999999999999)
+    await state.update_data(second=message.text)
+    data = await state.get_data()
+    one = data['first']
+    two = data['second']
+    now = datetime.now()
+    day, month, current_time = now.day, now.month, now.strftime("%H:%M:%S")
+
+    answer = (f'Билет куплен {day}.{month} в {current_time}.\n'
+              f'Кол-во билетов {one}, тип: взрослый; кол-во {two}, тип: детский')
+    
+    await create_and_send_qr(answer, 'детский', code_number, message)
+    await state.clear()
         
     
 
