@@ -17,10 +17,10 @@ tiger = InlineKeyboardMarkup(inline_keyboard=[
     
     [InlineKeyboardButton(text='Расписание', callback_data='time'),
     InlineKeyboardButton(text='Место обитания', callback_data='gues')],
-    [InlineKeyboardButton(text='Назад', callback_data='back_menu')]
+    [InlineKeyboardButton(text='Назад', callback_data='back_menu_tiger')]
 ])
 
-tiger_1 = InlineKeyboardMarkup(inline_keyboard=[
+tiger_back = InlineKeyboardMarkup(inline_keyboard=[
     [InlineKeyboardButton(text='Назад', callback_data='back_tiger')]
 ])
 
@@ -31,7 +31,7 @@ slon = InlineKeyboardMarkup(inline_keyboard=[
 ])
 
 
-slon_1 = InlineKeyboardMarkup(inline_keyboard=[
+slon_back = InlineKeyboardMarkup(inline_keyboard=[
     [InlineKeyboardButton(text='Назад', callback_data='back_slon')]
 ])
 

@@ -66,7 +66,7 @@ async def start (message: Message):
 
 
 
-@dp.callback_query(F.data == 'tiger')
+@dp.callback_query(F.data == 'tiger')#описание тигра
 async def Tiger(callback: CallbackQuery):
     await callback.message.delete()
     photo_path = animal[5]
@@ -74,75 +74,67 @@ async def Tiger(callback: CallbackQuery):
     await callback.message.answer_photo(photo=types.FSInputFile(
         path=photo_path), caption=f"*{animal[0]}*", parse_mode="Markdown", reply_markup=kb.tiger )
     
-@dp.callback_query(F.data == 'gues')
-async def Tiger_time(callback: CallbackQuery):
+@dp.callback_query(F.data == 'gues')#вальер тигра
+async def Tiger_gues(callback: CallbackQuery):
     await callback.message.delete()
     photo_path = animal[11]
     await callback.answer()
     await callback.message.answer_photo(photo=types.FSInputFile(
-        path=photo_path), caption="*" + animal[12] + "*", parse_mode="Markdown", reply_markup=kb.tiger_1 )
+        path=photo_path), caption="*" + animal[12] + "*", parse_mode="Markdown", reply_markup=kb.tiger_back )
 
-@dp.callback_query(F.data == 'time')
-async def Tiger(callback: CallbackQuery):
+@dp.callback_query(F.data == 'time')#время нахождния тигра
+async def Tiger_time(callback: CallbackQuery):
     photo_path = animal[10]
     await callback.message.delete()
     await callback.answer()
     await callback.message.answer_photo(photo=types.FSInputFile(
-        path=photo_path), caption="*" + animal[13] + "*", parse_mode="Markdown",reply_markup=kb.tiger_1
-    )
+        path=photo_path), caption="*" + animal[13] + "*", parse_mode="Markdown",reply_markup=kb.tiger_back)
 
-@dp.callback_query(F.data == 'back_tiger')
-async def Tiger_time(callback: CallbackQuery):
-    await callback.message.delete()
-    photo_path = animal[5]
-    await callback.answer('Вы вернулись к тигру')
-    await callback.message.answer_photo(photo=types.FSInputFile(
-        path=photo_path), caption=f"*{animal[0]}*", parse_mode="Markdown", reply_markup=kb.tiger )
+@dp.callback_query(F.data == 'back_tiger')# возвращает описание о тигре 
+async def Tiger_back(callback: CallbackQuery):
+    await Tiger(callback)
                                   
-@dp.callback_query(F.data == 'back_menu')
-async def Tiger_time(callback: CallbackQuery):
-    await callback.answer('Вы вернулись в меню')
-    await callback.message.answer(text='Привет! Выбери животное.', reply_markup=kb.main)
+@dp.callback_query(F.data == 'back_menu_tiger')#возвращает в меню
+async def Tiger_back_to_menu(callback: CallbackQuery):
+    await callback.answer('Вы ыернулись в меню')
+    await start(callback.message)
 
 
 
 
 
-@dp.callback_query(F.data == 'slon')
+@dp.callback_query(F.data == 'slon')#описание слона
 async def Slon(callback: CallbackQuery):
     photo_path = animal[6]
     await callback.answer()
     await callback.message.answer_photo(photo=types.FSInputFile(
         path=photo_path), caption="*" + animal[1] + "*", parse_mode="Markdown", reply_markup=kb.slon)
 
-@dp.callback_query(F.data == 'gues_slon')
-async def Slon(callback: CallbackQuery):
+@dp.callback_query(F.data == 'gues_slon')#вальер слона
+async def Slon_gues(callback: CallbackQuery):
     await callback.message.delete()
     photo_path = animal[14]
     await callback.answer()
     await callback.message.answer_photo(photo=types.FSInputFile(
-        path=photo_path), caption="*" + animal[15] + "*", parse_mode="Markdown", reply_markup=kb.slon_1)
+        path=photo_path), caption="*" + animal[15] + "*", parse_mode="Markdown", reply_markup=kb.slon_back)
 
-@dp.callback_query(F.data == 'time_slon')
-async def Slon(callback: CallbackQuery):
+@dp.callback_query(F.data == 'time_slon')#время нахождения слона
+async def Slon_time(callback: CallbackQuery):
     await callback.message.delete()
     photo_path = animal[10]
     await callback.answer()
     await callback.message.answer_photo(photo=types.FSInputFile(
-        path=photo_path), caption="*" + animal[13] + "*", parse_mode="Markdown", reply_markup=kb.slon_1)
+        path=photo_path), caption="*" + animal[13] + "*", parse_mode="Markdown", reply_markup=kb.slon_back)
+    
+@dp.callback_query(F.data == 'back_slon')#возвращение к слону
+async def Slon_back(callback: CallbackQuery):
+    await Slon(callback)
 
-@dp.callback_query(F.data == 'back_menu_slon')
-async def Tiger_time(callback: CallbackQuery):
+@dp.callback_query(F.data == 'back_menu_slon')#возвращение в меню
+async def Slon_back_to_menu(callback: CallbackQuery):
     await callback.answer('Вы вернулись в меню')
-    await callback.message.answer(text='Привет! Выбери животное.', reply_markup=kb.main)
+    await start(callback.message)
 
-@dp.callback_query(F.data == 'back_slon')
-async def Tiger_time(callback: CallbackQuery):
-    await callback.message.delete()
-    photo_path = animal[6]
-    await callback.answer('Вы вернулись к слону')
-    await callback.message.answer_photo(photo=types.FSInputFile(
-        path=photo_path), caption=f"*{animal[1]}*", parse_mode="Markdown", reply_markup=kb.slon )
 
 
 
@@ -153,7 +145,7 @@ async def Tiger_time(callback: CallbackQuery):
 
 
 @dp.callback_query(F.data == 'begemot')
-async def Slon(callback: CallbackQuery):
+async def Begemot(callback: CallbackQuery):
     photo_path = animal[7]
     await callback.answer()
     await callback.message.answer_photo(photo=types.FSInputFile(
@@ -162,7 +154,7 @@ async def Slon(callback: CallbackQuery):
     await callback.message.answer("*" + animal[2] + "*", parse_mode="Markdown")
     
 @dp.callback_query(F.data == 'leniv')
-async def Slon(callback: CallbackQuery):
+async def Leniv(callback: CallbackQuery):
     photo_path = animal[8]
     await callback.answer()
     await callback.message.answer_photo(photo=types.FSInputFile(
@@ -171,7 +163,7 @@ async def Slon(callback: CallbackQuery):
     await callback.message.answer("*" + animal[3] + "*", parse_mode="Markdown")
 
 @dp.callback_query(F.data == 'giraffe')
-async def Slon(callback: CallbackQuery):
+async def Giraffe(callback: CallbackQuery):
     photo_path= animal[9]
     await callback.answer()
     await callback.message.answer_photo(photo=types.FSInputFile(
