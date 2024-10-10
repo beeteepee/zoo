@@ -173,10 +173,9 @@ async def buy_1(message: Message):
 
 
 
-async def create_and_send_qr(answer: str, types_ticket: str, code_number: str, message: types.Message):
+async def create_and_send_qr(answer: str, code_number: str, message: types.Message):
     qr = qrcode.QRCode(version=1, box_size=10, border=5)
     now = datetime.now()
-    code_number = random.randint(100000000000000, 999999999999999)
     timestamp = now.strftime("%Y%m%d_%H%M%S")
     filename = f"qr_{timestamp}.jpg"
     qr.add_data(answer, code_number)
@@ -197,7 +196,6 @@ async def ticket(callback:CallbackQuery, state: FSMContext):
 
 @dp.message(reg.first_big)
 async def reg_ticket(message: Message, state: FSMContext):
-    code_number = random.randint(100000000000000, 999999999999999)
     await state.update_data(first=message.text)
     data = await state.get_data()
     one = data['first']
@@ -218,7 +216,6 @@ async def ticket(callback: CallbackQuery, state: FSMContext):
 
 @dp.message(reg.first_small)
 async def reg_ticket(message: Message, state: FSMContext):
-    code_number = random.randint(100000000000000, 999999999999999)
     await state.update_data(first=message.text)
     data = await state.get_data()
     one = data['first']
@@ -246,7 +243,6 @@ async def reg_ticket(message: Message, state: FSMContext):
 
 @dp.message(reg.second_big_and_small)
 async def reg_ticket_second(message: Message, state: FSMContext):
-    code_number = random.randint(100000000000000, 999999999999999)
     await state.update_data(second=message.text)
     data = await state.get_data()
     one = data['first']
