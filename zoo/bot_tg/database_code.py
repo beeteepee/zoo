@@ -5,6 +5,15 @@ db = sqlite3.connect('animals.db')
 
 c = db.cursor()
 
+c.execute('''
+CREATE TABLE IF NOT EXISTS qrcode (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        user_id INTEGER NOT NULL,
+        filename TEXT NOT NULL 
+              
+)
+''')
+
 
 c.execute('''
 CREATE TABLE IF NOT EXISTS animals (
