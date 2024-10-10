@@ -204,7 +204,7 @@ async def reg_ticket(message: Message, state: FSMContext):
     answer = (f'Билет куплен {day}.{month} в {current_time}.\n'
               f'Кол-во билетов {one}, тип: взрослый')
     
-    await create_and_send_qr(answer, 'взрослый', code_number, message)
+    await create_and_send_qr(answer, 'взрослый', message)
     await state.clear()
 
 
@@ -225,7 +225,7 @@ async def reg_ticket(message: Message, state: FSMContext):
     answer = (f'Билет куплен {day}.{month} в {current_time}.\n'
               f'Кол-во билетов {one}, тип: детский')
     
-    await create_and_send_qr(answer, 'детский', code_number, message)
+    await create_and_send_qr(answer, 'детский', message)
     await state.clear()
 
 
@@ -253,7 +253,7 @@ async def reg_ticket_second(message: Message, state: FSMContext):
     answer = (f'Билет куплен {day}.{month} в {current_time}.\n'
               f'Кол-во билетов {one}, тип: взрослый; кол-во {two}, тип: детский')
     
-    await create_and_send_qr(answer, 'детский', code_number, message)
+    await create_and_send_qr(answer, 'детский', message)
     await state.clear()
         
     
