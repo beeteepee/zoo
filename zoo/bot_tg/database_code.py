@@ -1,9 +1,9 @@
 import sqlite3
 
-db = sqlite3.connect('animals.db')
+with sqlite3.connect('animals.db') as db:
+    c = db.cursor()
 
 
-c = db.cursor()
 c.execute('''
         CREATE TABLE IF NOT EXISTS qrcode (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -14,12 +14,6 @@ c.execute('''
 ''')
     
     
-    
-
-
-
-
-
 c.execute('''
 CREATE TABLE IF NOT EXISTS animals (
           tiger TEXT NOT NULL,
@@ -66,11 +60,7 @@ INSERT INTO animals VALUES
     '\exmapls\zoo\photo\photo_slon_zoo.jpg',
     'На данном изображении отмечен слон. Со входа поверните направо и идите, пока не увидите небольшое кафе; слон будет справа от него!')
 """)
-
-
 db.commit()
-
-
 
 #c.execute('SELECT * FROM animals')
 #print(c.fetchone()[1])
@@ -78,7 +68,8 @@ async def start_db(user_id):
     user = c.execute("SELECT * FROM qrcode WHERE tg_id = {key}".format(key=user_id)).fetchone()
     if not user:
         c.execute("INSERT INTO qrcode (tg_id) VALUES ({key})".format(key=user_id))
-        db.commit()
+
+
 print('Бот запущен')
 
 
