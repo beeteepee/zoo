@@ -67,6 +67,9 @@ async def start_db(user_id):
         c.execute("INSERT INTO qrcode (tg_id) VALUES ({key})".format(key=user_id))
         db.commit()
 
+async def qr_code_to_db():
+    c.execute("INSERT INTO qrcode (filename) VALUES ")
+
 
 print('Бот запущен')
 

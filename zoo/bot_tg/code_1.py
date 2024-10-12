@@ -174,12 +174,12 @@ async def buy_1(message: Message):
 
 
 
-async def create_and_send_qr(answer: str, code_number: str, message: types.Message):
+async def create_and_send_qr(answer: str, types_ticket: str, message: types.Message):
     qr = qrcode.QRCode(version=1, box_size=10, border=5)
     now = datetime.now()
     timestamp = now.strftime("%Y%m%d_%H%M%S")
     filename = f"qr_{timestamp}.jpg"
-    qr.add_data(answer, code_number)
+    qr.add_data(answer)
     qr.make(fit=True)
     img = qr.make_image(fill_color="black", back_color="white")
     img.save(filename, 'JPEG')
