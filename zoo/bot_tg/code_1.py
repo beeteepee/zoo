@@ -29,10 +29,9 @@ bot = Bot(token=API_TOKEN)
 dp = Dispatcher()
 
 db = sqlite3.connect('animals.db')
-db_2 = sqlite3.connect('qr.db')
-
 c = db.cursor()
-cd = db_2.cursor()
+
+
 
 
 

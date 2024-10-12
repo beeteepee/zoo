@@ -12,10 +12,8 @@ c.execute('''
               
 )
 ''')
-    
-    
 c.execute('''
-CREATE TABLE IF NOT EXISTS animals (
+    CREATE TABLE IF NOT EXISTS animals (
           tiger TEXT NOT NULL,
           slon TEXT NOT NULL,
           begemot TEXT NOT NULL,
@@ -60,7 +58,6 @@ INSERT INTO animals VALUES
     '\exmapls\zoo\photo\photo_slon_zoo.jpg',
     'На данном изображении отмечен слон. Со входа поверните направо и идите, пока не увидите небольшое кафе; слон будет справа от него!')
 """)
-db.commit()
 
 #c.execute('SELECT * FROM animals')
 #print(c.fetchone()[1])
@@ -68,6 +65,7 @@ async def start_db(user_id):
     user = c.execute("SELECT * FROM qrcode WHERE tg_id = {key}".format(key=user_id)).fetchone()
     if not user:
         c.execute("INSERT INTO qrcode (tg_id) VALUES ({key})".format(key=user_id))
+        db.commit()
 
 
 print('Бот запущен')
