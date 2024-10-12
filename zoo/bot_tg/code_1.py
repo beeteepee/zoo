@@ -28,7 +28,7 @@ bot = Bot(token=API_TOKEN)
 # Создаем диспетчер
 dp = Dispatcher()
 
-db = sqlite3.connect('animals.db')
+db = sqlite3.connect('animals.db', timeout=2)
 c = db.cursor()
 
 
