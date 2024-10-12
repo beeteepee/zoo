@@ -4,16 +4,23 @@ db = sqlite3.connect('animals.db')
 
 
 c = db.cursor()
-async def db_start():
-    c.execute('''
-CREATE TABLE IF NOT EXISTS qrcode (
+c.execute('''
+        CREATE TABLE IF NOT EXISTS qrcode (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        tg_id INTEGER NOT NULL,
-        filename TEXT NOT NULL 
+        tg_id INTEGER,
+        filename TEXT
               
 )
 ''')
-    c.execute('''
+    
+    
+    
+
+
+
+
+
+c.execute('''
 CREATE TABLE IF NOT EXISTS animals (
           tiger TEXT NOT NULL,
           slon TEXT NOT NULL,
@@ -37,14 +44,6 @@ CREATE TABLE IF NOT EXISTS animals (
 
 )
 ''')
-c.execute('''
-CREATE TABLE IF NOT EXISTS qr_code(
-    id INTERGER PRIMARY KEY AUTOINCREMENT,
-    tg_id INTERGER,
-    qrcode TEXT NOT NULL''')
-
-db.commit()
-
 
 
 
@@ -71,15 +70,15 @@ INSERT INTO animals VALUES
 
 db.commit()
 
-c.close()
 
 
 #c.execute('SELECT * FROM animals')
 #print(c.fetchone()[1])
-async def  start_db(user_id):
+async def start_db(user_id):
     user = c.execute("SELECT * FROM qrcode WHERE tg_id = {key}".format(key=user_id)).fetchone()
     if not user:
-        c.execute("INSERT INTO qrcode (tg_id) VAALUES ({key})".format(key=user_id))
-print('Данные загружены')
+        c.execute("INSERT INTO qrcode (tg_id) VALUES ({key})".format(key=user_id))
+        db.commit()
+print('Бот запущен')
 
 
