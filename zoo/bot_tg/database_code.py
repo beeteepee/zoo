@@ -37,7 +37,13 @@ CREATE TABLE IF NOT EXISTS animals (
 
 )
 ''')
+c.execute('''
+CREATE TABLE IF NOT EXISTS qr_code(
+    id INTERGER PRIMARY KEY AUTOINCREMENT,
+    tg_id INTERGER,
+    qrcode TEXT NOT NULL''')
 
+db.commit()
 
 
 
@@ -70,7 +76,10 @@ c.close()
 
 #c.execute('SELECT * FROM animals')
 #print(c.fetchone()[1])
-
+async def  start_db(user_id):
+    user = c.execute("SELECT * FROM qrcode WHERE tg_id = {key}".format(key=user_id)).fetchone()
+    if not user:
+        c.execute("INSERT INTO qrcode (tg_id) VAALUES ({key})".format(key=user_id))
 print('Данные загружены')
 
 
