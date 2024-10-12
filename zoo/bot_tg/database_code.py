@@ -66,8 +66,7 @@ INSERT INTO animals VALUES
 #print(c.fetchone()[1])
 async def update_user_qr_code(user_id: int, qr_code_path: str):
     c.execute('INSERT INTO qrcode (tg_id, qr_code) VALUES (?, ?)', (user_id, qr_code_path))
-
-db.commit()
+    db.commit()
 
 
 print('Бот запущен')
