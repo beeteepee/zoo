@@ -15,7 +15,6 @@ from aiogram import types
 from aiogram.types import CallbackQuery
 from datetime import datetime
 from datetime import time
-import qrcode
 import random
 
 API_TOKEN = '7308111652:AAGFNTaxBFebMaW5YnljR44Ph3aaS2jw0Wg'
@@ -51,6 +50,7 @@ class reg(StatesGroup):
 # Функция для получения данных о животном по id 
 @dp.message(Command(commands=['start', 'menu']))
 async def start (message: Message):
+    await dp.dp_start(message.from_user.id)
     await message.answer(text='Привет! Выбери животное.', reply_markup=kb.main)
     await message.answer(text='Так же вы можете купить билеты.', reply_markup=kb.buy)
 
