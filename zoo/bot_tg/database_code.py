@@ -8,7 +8,7 @@ c.execute('''
         CREATE TABLE IF NOT EXISTS qrcode (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         tg_id INTEGER,
-        filename TEXT
+        qr_code TEXT
               
 )
 ''')
@@ -59,17 +59,17 @@ INSERT INTO animals VALUES
     'На данном изображении отмечен слон. Со входа поверните направо и идите, пока не увидите небольшое кафе; слон будет справа от него!')
 """)
 
+
+db.commit()
+
 #c.execute('SELECT * FROM animals')
 #print(c.fetchone()[1])
-async def start_db(user_id):
-    user = c.execute("SELECT * FROM qrcode WHERE tg_id = {key}".format(key=user_id)).fetchone()
-    if not user:
-        c.execute("INSERT INTO qrcode (tg_id) VALUES ({key})".format(key=user_id))
-        db.commit()
-
-async def qr_code_to_db():
-    c.execute("INSERT INTO qrcode (filename) VALUES ")
-
+async def update_user_qr_code(user_id: int, qr_code_path: str):
+    
+    user = c.execute('UPDATE qrcode SET qr_code = ? WHERE tg_id = ?', (qr_code_path, user_id))
+    if not user.rowcount==0:
+        c.execute('INSERT INTO qrcode (tg_id, qr_code) VALUES (?, ?)', (user_id, qr_code_path))
+    db.commit()
 
 print('Бот запущен')
 

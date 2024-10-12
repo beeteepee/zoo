@@ -51,7 +51,6 @@ class reg(StatesGroup):
 # Функция для получения данных о животном по id 
 @dp.message(Command(commands=['start', 'menu']))
 async def start (message: Message):
-    await db_code.start_db(message.from_user.id)
     await message.answer(text='Привет! Выбери животное.', reply_markup=kb.main)
     await message.answer(text='Так же вы можете купить билеты.', reply_markup=kb.buy)
 
@@ -173,7 +172,6 @@ async def buy_1(message: Message):
 
 
 
-
 async def create_and_send_qr(answer: str, types_ticket: str, message: types.Message):
     qr = qrcode.QRCode(version=1, box_size=10, border=5)
     now = datetime.now()
@@ -185,8 +183,12 @@ async def create_and_send_qr(answer: str, types_ticket: str, message: types.Mess
     img.save(filename, 'JPEG')
     await message.answer(answer)
     await message.answer_photo(photo=types.FSInputFile(filename))
+    user_id = message.from_user.id
+    await db_code.update_user_qr_code(user_id, filename)
+    
     if os.path.exists(filename):
         os.remove(filename)
+       
 
 
 @dp.callback_query(F.data == 'big')
