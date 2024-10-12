@@ -4,18 +4,16 @@ db = sqlite3.connect('animals.db')
 
 
 c = db.cursor()
-
-c.execute('''
+async def db_start():
+    c.execute('''
 CREATE TABLE IF NOT EXISTS qrcode (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        user_id INTEGER NOT NULL,
+        tg_id INTEGER NOT NULL,
         filename TEXT NOT NULL 
               
 )
 ''')
-
-
-c.execute('''
+    c.execute('''
 CREATE TABLE IF NOT EXISTS animals (
           tiger TEXT NOT NULL,
           slon TEXT NOT NULL,
