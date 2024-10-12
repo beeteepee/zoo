@@ -21,7 +21,7 @@ import qrcode
 API_TOKEN = '7308111652:AAGFNTaxBFebMaW5YnljR44Ph3aaS2jw0Wg'
 
 import keabord as kb
-import database_code as db_code
+import database_two as db_code
 # Создаем объект бота
 bot = Bot(token=API_TOKEN)
 

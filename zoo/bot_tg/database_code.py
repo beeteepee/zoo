@@ -1,4 +1,5 @@
 import sqlite3
+import aiosqlite
 
 with sqlite3.connect('animals.db', timeout=3) as db:
     c = db.cursor()
@@ -61,12 +62,9 @@ INSERT INTO animals VALUES
 
 
 
-
 #c.execute('SELECT * FROM animals')
 #print(c.fetchone()[1])
-async def update_user_qr_code(user_id: int, qr_code_path: str):
-    c.execute('INSERT INTO qrcode (tg_id, qr_code) VALUES (?, ?)', (user_id, qr_code_path))
-db.commit()
+
 
 
 print('Бот запущен')
