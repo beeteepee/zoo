@@ -17,8 +17,8 @@ c.execute('''
 
 
 
-async def update_user_qr_code(user_id: int, qr_code_path: str, answer_for_db: str):
-    c.execute('INSERT INTO qrcode (tg_id, qr_code, qr_code_info) VALUES (?, ?)', (user_id, qr_code_path, answer_for_db))
+async def update_user_qr_code(user_id: int, qr_code_path: str, answer: str):
+    c.execute('INSERT INTO qrcode (tg_id, qr_code, qr_code_info) VALUES (?, ?, ?)', (user_id, qr_code_path, answer))
     db.commit()
 
 

@@ -132,9 +132,35 @@ async def Begemot(callback: CallbackQuery):
     photo_path = animal[7]
     await callback.answer()
     await callback.message.answer_photo(photo=types.FSInputFile(
-        path=photo_path
-    ))
-    await callback.message.answer("*" + animal[2] + "*", parse_mode="Markdown")
+        path=photo_path), caption="*" + animal[2] + "*", parse_mode="Markdown", reply_markup=kb.slon)
+
+@dp.callback_query(F.data == 'gues_begemot')#вальер слона
+async def Begemot_gues(callback: CallbackQuery):
+    await callback.message.delete()
+    photo_path = animal[14]
+    await callback.answer()
+    await callback.message.answer_photo(photo=types.FSInputFile(
+        path=photo_path), caption="*" + animal[15] + "*", parse_mode="Markdown", reply_markup=kb.begemot_back)
+
+@dp.callback_query(F.data == 'time_begemot')#время нахождения слона
+async def Begemot_time(callback: CallbackQuery):
+    await callback.message.delete()
+    photo_path = animal[10]
+    await callback.answer()
+    await callback.message.answer_photo(photo=types.FSInputFile(
+        path=photo_path), caption="*" + animal[13] + "*", parse_mode="Markdown", reply_markup=kb.begemot_back)
+    
+@dp.callback_query(F.data == 'begemot_back')#возвращение к слону
+async def Begemot_back(callback: CallbackQuery):
+    await Begemot(callback)
+
+@dp.callback_query(F.data == 'back_menu_begemot')#возвращение в меню
+async def Begemot_back_to_menu(callback: CallbackQuery):
+    await callback.answer('Вы вернулись в меню')
+    await start(callback.message)
+
+
+
     
 @dp.callback_query(F.data == 'leniv')
 async def Leniv(callback: CallbackQuery):
@@ -175,7 +201,6 @@ async def buy_1(message: Message):
 async def create_and_send_qr(answer: str, types_ticket: str, message: types.Message):
     qr = qrcode.QRCode(version=1, box_size=10, border=5)
     now = datetime.now()
-    answer_for_db = answer
     folder_path = r'\vscode rep\zoo\zoo\photo_qrode'
     timestamp = now.strftime("%Y%m%d_%H%M%S")
     filename = f"qr_{timestamp}.jpg"
@@ -187,7 +212,7 @@ async def create_and_send_qr(answer: str, types_ticket: str, message: types.Mess
     await message.answer(answer)
     await message.answer_photo(photo=types.FSInputFile(file_path))
     user_id = message.from_user.id
-    await db_code.update_user_qr_code(user_id, file_path, answer_for_db)
+    await db_code.update_user_qr_code(user_id, file_path, answer)
     
        
 
@@ -267,29 +292,59 @@ async def my_ticket(message: Message):
 
 
 
-@dp.callback_query(F.data == 'all')
-async def get_qr(callback: CallbackQuery):
+@dp.callback_query(F.data == 'all')#получение всех билетов
+async def get_qr_all(callback: CallbackQuery):
     await callback.answer()
-    db = sqlite3.connect('qr.db', timeout=2)
+    db = sqlite3.connect('qr.db')
     c = db.cursor()
     tg_id = callback.from_user.id
-    c.execute('SELECT qr_code FROM qrcode WHERE tg_id = ?', (tg_id,))
-    results = c.fetchall()  # Получаем все записи для пользователя
+    c.execute('SELECT qr_code, qr_code_info FROM qrcode WHERE tg_id = ?', (tg_id,))
+    results = c.fetchall()  
 
     if not results:
         await callback.message.answer("У вас нет билетов.")
         return
 
-    for result in results:
-        qr_code = result[0]  # Извлекаем сам QR-код
-        photo_path = os.path.join(os.getcwd(), r'\vscode rep\zoo\zoo\photo_qrode', qr_code)  # Укажите правильный путь к папке
+    for qr_code, qr_code_info in results:
+        photo_path = os.path.join(os.getcwd(), r'vscode repzoozoophoto_qrode', qr_code) 
         
-        print(f"Проверяем файл: {photo_path}")  # Лог для отладки
+        print(f"Проверяем файл: {photo_path}") 
         
         if os.path.exists(photo_path):
-            await callback.message.answer_photo(photo=types.FSInputFile(photo_path))
+            await callback.message.answer_photo(photo=types.FSInputFile(photo_path), caption=qr_code_info)  
         else:
             await callback.message.answer(f"Ошибка: файл {photo_path} не найден.")
+
+
+@dp.callback_query(F.data == 'last')#получение последнего билета
+async def get_qr_last(callback: CallbackQuery):
+    await callback.answer()
+    db = sqlite3.connect('qr.db', timeout=2)
+    c = db.cursor()
+    tg_id = callback.from_user.id
+    
+    query = """
+    SELECT qr_code, qr_code_info FROM qrcode
+    WHERE tg_id = ? 
+    ORDER BY id DESC 
+    LIMIT 1
+    """
+    
+    c.execute(query, (tg_id,))
+    result = c.fetchone()  #
+
+    if result: 
+        qr_code, qr_code_info = result   
+        photo_path = os.path.join(os.getcwd(), r'vscode repzoozoophoto_qrode', qr_code) 
+        
+        print(f"Проверяем файл: {photo_path}")
+
+        await callback.message.answer_photo(photo=types.FSInputFile(photo_path), caption=qr_code_info)
+    else:
+        await callback.message.answer("QR код не найден.")
+
+
+    
 
 
 

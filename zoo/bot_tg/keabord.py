@@ -35,6 +35,14 @@ slon_back = InlineKeyboardMarkup(inline_keyboard=[
     [InlineKeyboardButton(text='Назад', callback_data='back_slon')]
 ])
 
+begemot = InlineKeyboardMarkup(inline_keyboard=[
+    [InlineKeyboardButton(text='Расписание', callback_data='time_begemot'),
+    InlineKeyboardButton(text='Место обитания', callback_data='gues_begemot')],
+    [InlineKeyboardButton(text='Назад', callback_data='back_menu_begemot')]
+]
+)
+begemot_back = InlineKeyboardMarkup(inline_keyboard=[
+    [InlineKeyboardButton(text='Назад', callback_data='begemot_back')]])
 
 buy = ReplyKeyboardMarkup(keyboard=[
     [KeyboardButton(text='Покупка билетов')],
