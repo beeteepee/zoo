@@ -37,7 +37,8 @@ slon_back = InlineKeyboardMarkup(inline_keyboard=[
 
 
 buy = ReplyKeyboardMarkup(keyboard=[
-    [KeyboardButton(text='Покупка билетов')]
+    [KeyboardButton(text='Покупка билетов')],
+    [KeyboardButton(text='Мои билеты')]
 ],
 resize_keyboard=True
 )

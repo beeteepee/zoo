@@ -175,19 +175,19 @@ async def buy_1(message: Message):
 async def create_and_send_qr(answer: str, types_ticket: str, message: types.Message):
     qr = qrcode.QRCode(version=1, box_size=10, border=5)
     now = datetime.now()
+    folder_path = r'\vscode rep\zoo\zoo\photo_qrode'
     timestamp = now.strftime("%Y%m%d_%H%M%S")
     filename = f"qr_{timestamp}.jpg"
     qr.add_data(answer)
     qr.make(fit=True)
     img = qr.make_image(fill_color="black", back_color="white")
-    img.save(filename, 'JPEG')
+    file_path = os.path.join(folder_path, filename)
+    img.save(file_path, 'JPEG')
     await message.answer(answer)
-    await message.answer_photo(photo=types.FSInputFile(filename))
+    await message.answer_photo(photo=types.FSInputFile(file_path))
     user_id = message.from_user.id
-    await db_code.update_user_qr_code(user_id, filename)
+    await db_code.update_user_qr_code(user_id, file_path)
     
-    if os.path.exists(filename):
-        os.remove(filename)
        
 
 
@@ -259,7 +259,28 @@ async def reg_ticket_second(message: Message, state: FSMContext):
     await create_and_send_qr(answer, 'детский', message)
     await state.clear()
         
-    
+@dp.message(F.text == 'Мои билеты')
+async def get_qr(message: Message):
+    db = sqlite3.connect('qr.db', timeout=2)
+    c = db.cursor()
+    tg_id = message.from_user.id
+    c.execute('SELECT qr_code FROM qrcode WHERE tg_id = ?', (tg_id,))
+    results = c.fetchall()  # Получаем все записи для пользователя
+
+    if not results:
+        await message.answer("У вас нет билетов.")
+        return
+
+    for result in results:
+        qr_code = result[0]  # Извлекаем сам QR-код
+        photo_path = os.path.join(os.getcwd(), r'\vscode rep\zoo\zoo\photo_qrode', qr_code)  # Укажите правильный путь к папке
+        
+        print(f"Проверяем файл: {photo_path}")  # Лог для отладки
+        
+        if os.path.exists(photo_path):
+            await message.answer_photo(photo=types.FSInputFile(photo_path))
+        else:
+            await message.answer(f"Ошибка: файл {photo_path} не найден.")
 
 
 
