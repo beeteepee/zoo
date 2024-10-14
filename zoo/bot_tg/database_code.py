@@ -6,14 +6,6 @@ with sqlite3.connect('animals.db', timeout=3) as db:
 
 
 c.execute('''
-        CREATE TABLE IF NOT EXISTS qrcode (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        tg_id INTEGER,
-        qr_code TEXT
-              
-)
-''')
-c.execute('''
     CREATE TABLE IF NOT EXISTS animals (
           tiger TEXT NOT NULL,
           slon TEXT NOT NULL,

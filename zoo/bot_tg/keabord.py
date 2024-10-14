@@ -47,3 +47,7 @@ type_ticket = InlineKeyboardMarkup(inline_keyboard=[
     [InlineKeyboardButton(text='Только взрослый', callback_data='big'), InlineKeyboardButton(text='Только детский', callback_data='small')],
     [InlineKeyboardButton(text= 'Взрослый и детский', callback_data='big_and_small')]
 ])
+
+type_my_ticket = InlineKeyboardMarkup(inline_keyboard=[
+    [InlineKeyboardButton(text='Последний', callback_data='last'), InlineKeyboardButton(text='Все',callback_data='all')]
+])

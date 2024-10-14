@@ -175,6 +175,7 @@ async def buy_1(message: Message):
 async def create_and_send_qr(answer: str, types_ticket: str, message: types.Message):
     qr = qrcode.QRCode(version=1, box_size=10, border=5)
     now = datetime.now()
+    answer_for_db = answer
     folder_path = r'\vscode rep\zoo\zoo\photo_qrode'
     timestamp = now.strftime("%Y%m%d_%H%M%S")
     filename = f"qr_{timestamp}.jpg"
@@ -186,7 +187,7 @@ async def create_and_send_qr(answer: str, types_ticket: str, message: types.Mess
     await message.answer(answer)
     await message.answer_photo(photo=types.FSInputFile(file_path))
     user_id = message.from_user.id
-    await db_code.update_user_qr_code(user_id, file_path)
+    await db_code.update_user_qr_code(user_id, file_path, answer_for_db)
     
        
 
@@ -258,17 +259,25 @@ async def reg_ticket_second(message: Message, state: FSMContext):
     
     await create_and_send_qr(answer, 'детский', message)
     await state.clear()
-        
+
 @dp.message(F.text == 'Мои билеты')
-async def get_qr(message: Message):
+async def my_ticket(message: Message):
+    await message.answer('Вы хотите получить последний билет или все сразу?', reply_markup=kb.type_my_ticket)
+
+
+
+
+@dp.callback_query(F.data == 'all')
+async def get_qr(callback: CallbackQuery):
+    await callback.answer()
     db = sqlite3.connect('qr.db', timeout=2)
     c = db.cursor()
-    tg_id = message.from_user.id
+    tg_id = callback.from_user.id
     c.execute('SELECT qr_code FROM qrcode WHERE tg_id = ?', (tg_id,))
     results = c.fetchall()  # Получаем все записи для пользователя
 
     if not results:
-        await message.answer("У вас нет билетов.")
+        await callback.message.answer("У вас нет билетов.")
         return
 
     for result in results:
@@ -278,9 +287,9 @@ async def get_qr(message: Message):
         print(f"Проверяем файл: {photo_path}")  # Лог для отладки
         
         if os.path.exists(photo_path):
-            await message.answer_photo(photo=types.FSInputFile(photo_path))
+            await callback.message.answer_photo(photo=types.FSInputFile(photo_path))
         else:
-            await message.answer(f"Ошибка: файл {photo_path} не найден.")
+            await callback.message.answer(f"Ошибка: файл {photo_path} не найден.")
 
 
 
