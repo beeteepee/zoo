@@ -22,7 +22,12 @@ c.execute('''
           animal_gues TEXT NOT NULL,
           tiger_time TEXT NOT NULL,
           slon_photo_zoo TEXT NOT NULL,
-          slon_gues TEXT NOT NULL
+          slon_gues TEXT NOT NULL,
+          begemot_ques TEXT NOT NULL,
+          leniv_ques TEXT NOT NULL,
+          giraffe_ques TEXT NOT NULL,
+          photo_giraffe_ques TEXT NOT NULL,
+          photo_begemot_ques TEXT NOT NULL
 
 
 
@@ -50,9 +55,11 @@ INSERT INTO animals VALUES
     'Вы можете посмотреть на животное по будням с 9:00 до 19:00. В субботу с 10:00 до 17:00. Воскресенье выходной.',
     '\exmapls\zoo\photo\photo_slon_zoo.jpg',
     'На данном изображении отмечен слон. Со входа поверните направо и идите, пока не увидите небольшое кафе; слон будет справа от него!',
-    'На данном изображении отмечен бегемот. Со входа пройдите прямо, вы увидете черепаху, после него будет бегемот!'
-    ''
-    '')
+    'На данном изображении отмечен бегемот. Со входа пройдите прямо, вы увидете черепаху, после него будет бегемот!',
+    'К сожалению на данный момент ленивец в зоопраке отсутствует',
+    'На данном изображении отмечен жираф. Со входа пройдите налево и немного пройдя увидите жирафа!',
+    '/vscode rep\zoo\zoo\photo\ques_giraffe.jpg',
+    '/vscode rep\zoo\zoo\photo/begemot_ques.jpg')
 """)
 
 

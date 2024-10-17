@@ -132,15 +132,15 @@ async def Begemot(callback: CallbackQuery):
     photo_path = animal[7]
     await callback.answer()
     await callback.message.answer_photo(photo=types.FSInputFile(
-        path=photo_path), caption="*" + animal[2] + "*", parse_mode="Markdown", reply_markup=kb.slon)
+        path=photo_path), caption="*" + animal[2] + "*", parse_mode="Markdown", reply_markup=kb.begemot)
 
 @dp.callback_query(F.data == 'gues_begemot')#вальер слона
 async def Begemot_gues(callback: CallbackQuery):
     await callback.message.delete()
-    photo_path = animal[14]
+    photo_path = animal[20]
     await callback.answer()
     await callback.message.answer_photo(photo=types.FSInputFile(
-        path=photo_path), caption="*" + animal[15] + "*", parse_mode="Markdown", reply_markup=kb.begemot_back)
+        path=photo_path), caption="*" + animal[16] + "*", parse_mode="Markdown", reply_markup=kb.begemot_back)
 
 @dp.callback_query(F.data == 'time_begemot')#время нахождения слона
 async def Begemot_time(callback: CallbackQuery):
@@ -169,7 +169,32 @@ async def Leniv(callback: CallbackQuery):
     await callback.message.answer_photo(photo=types.FSInputFile(
         path=photo_path
     ))
-    await callback.message.answer("*" + animal[3] + "*", parse_mode="Markdown")
+    await callback.message.answer("*" + animal[3] + "*", parse_mode="Markdown", reply_markup=kb.leniv)
+
+@dp.callback_query(F.data == 'gues_leniv')#вальер слона
+async def leniv_gues(callback: CallbackQuery):
+    await callback.message.delete()
+    await callback.answer()
+    await callback.message.answer("*" + animal[17] + "*", parse_mode="Markdown", reply_markup=kb.leniv_back)
+
+@dp.callback_query(F.data == 'time_leniv')#время нахождения слона
+async def leniv_time(callback: CallbackQuery):
+    await callback.message.delete()
+    photo_path = animal[10]
+    await callback.answer()
+    await callback.message.answer_photo(photo=types.FSInputFile(
+        path=photo_path), caption="*" + animal[13] + "*", parse_mode="Markdown", reply_markup=kb.leniv_back)
+    
+@dp.callback_query(F.data == 'leniv_back')#возвращение к слону
+async def leniv_back(callback: CallbackQuery):
+    await Leniv(callback)
+
+@dp.callback_query(F.data == 'back_menu_leniv')#возвращение в меню
+async def leniv_back_to_menu(callback: CallbackQuery):
+    await callback.answer('Вы вернулись в меню')
+    await start(callback.message)
+
+
 
 @dp.callback_query(F.data == 'giraffe')
 async def Giraffe(callback: CallbackQuery):
@@ -178,7 +203,34 @@ async def Giraffe(callback: CallbackQuery):
     await callback.message.answer_photo(photo=types.FSInputFile(
         path=photo_path
     ))
-    await callback.message.answer("*" + animal[4] + "*", parse_mode="Markdown")
+    await callback.message.answer("*" + animal[4] + "*", parse_mode="Markdown", reply_markup=kb.giraffe)
+
+@dp.callback_query(F.data == 'gues_giraffe')#вальер слона
+async def giraffe_gues(callback: CallbackQuery):
+    await callback.message.delete()
+    await callback.answer()
+    photo_path = animal[19]
+    await callback.message.answer_photo(photo=types.FSInputFile(
+        path=photo_path), caption="*" + animal[18] + "*", parse_mode="Markdown", reply_markup=kb.giraffe_back)
+    
+
+@dp.callback_query(F.data == 'time_giraffe')#время нахождения слона
+async def giraffe_time(callback: CallbackQuery):
+    await callback.message.delete()
+    photo_path = animal[10]
+    await callback.answer()
+    await callback.message.answer_photo(photo=types.FSInputFile(
+        path=photo_path), caption="*" + animal[13] + "*", parse_mode="Markdown", reply_markup=kb.giraffe_back)
+    
+@dp.callback_query(F.data == 'giraffe_back')#возвращение к слону
+async def giraffe_back(callback: CallbackQuery):
+    await Giraffe(callback)
+
+@dp.callback_query(F.data == 'back_menu_giraffe')#возвращение в меню
+async def giraffe_back_to_menu(callback: CallbackQuery):
+    await callback.answer('Вы вернулись в меню')
+    await start(callback.message)
+
 
 
 @dp.message(F.text == 'Покупка билетов')

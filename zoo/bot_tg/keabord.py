@@ -44,6 +44,25 @@ begemot = InlineKeyboardMarkup(inline_keyboard=[
 begemot_back = InlineKeyboardMarkup(inline_keyboard=[
     [InlineKeyboardButton(text='Назад', callback_data='begemot_back')]])
 
+
+leniv = InlineKeyboardMarkup(inline_keyboard=[
+    [InlineKeyboardButton(text='Расписание', callback_data='time_leniv'),
+    InlineKeyboardButton(text='Место обитания', callback_data='gues_leniv')],
+    [InlineKeyboardButton(text='Назад', callback_data='back_menu_leniv')]
+])
+leniv_back = InlineKeyboardMarkup(inline_keyboard=[
+    [InlineKeyboardButton(text='Назад', callback_data='leniv_back')]])
+
+
+giraffe = InlineKeyboardMarkup(inline_keyboard=[
+    [InlineKeyboardButton(text='Расписание', callback_data='time_giraffe'),
+    InlineKeyboardButton(text='Место обитания', callback_data='gues_giraffe')],
+    [InlineKeyboardButton(text='Назад', callback_data='back_menu_giraffe')]
+])
+giraffe_back = InlineKeyboardMarkup(inline_keyboard=[
+    [InlineKeyboardButton(text='Назад', callback_data='giraffe_back')]])
+
+
 buy = ReplyKeyboardMarkup(keyboard=[
     [KeyboardButton(text='Покупка билетов')],
     [KeyboardButton(text='Мои билеты')]
