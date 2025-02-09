@@ -177,7 +177,7 @@ async def leniv_gues(callback: CallbackQuery):
     await callback.answer()
     await callback.message.answer("*" + animal[17] + "*", parse_mode="Markdown", reply_markup=kb.leniv_back)
 
-@dp.callback_query(F.data == 'time_leniv')#время нахождения слона
+@dp.callback_query(F.data == 'time_leniv')#время нахождения ленивца
 async def leniv_time(callback: CallbackQuery):
     await callback.message.delete()
     photo_path = animal[10]
@@ -185,7 +185,7 @@ async def leniv_time(callback: CallbackQuery):
     await callback.message.answer_photo(photo=types.FSInputFile(
         path=photo_path), caption="*" + animal[13] + "*", parse_mode="Markdown", reply_markup=kb.leniv_back)
     
-@dp.callback_query(F.data == 'leniv_back')#возвращение к слону
+@dp.callback_query(F.data == 'leniv_back')#возвращение к ленивцу
 async def leniv_back(callback: CallbackQuery):
     await Leniv(callback)
 
@@ -205,7 +205,7 @@ async def Giraffe(callback: CallbackQuery):
     ))
     await callback.message.answer("*" + animal[4] + "*", parse_mode="Markdown", reply_markup=kb.giraffe)
 
-@dp.callback_query(F.data == 'gues_giraffe')#вальер слона
+@dp.callback_query(F.data == 'gues_giraffe')#вальер жирафа
 async def giraffe_gues(callback: CallbackQuery):
     await callback.message.delete()
     await callback.answer()
@@ -214,7 +214,7 @@ async def giraffe_gues(callback: CallbackQuery):
         path=photo_path), caption="*" + animal[18] + "*", parse_mode="Markdown", reply_markup=kb.giraffe_back)
     
 
-@dp.callback_query(F.data == 'time_giraffe')#время нахождения слона
+@dp.callback_query(F.data == 'time_giraffe')#время нахождения жирафа
 async def giraffe_time(callback: CallbackQuery):
     await callback.message.delete()
     photo_path = animal[10]
@@ -222,7 +222,7 @@ async def giraffe_time(callback: CallbackQuery):
     await callback.message.answer_photo(photo=types.FSInputFile(
         path=photo_path), caption="*" + animal[13] + "*", parse_mode="Markdown", reply_markup=kb.giraffe_back)
     
-@dp.callback_query(F.data == 'giraffe_back')#возвращение к слону
+@dp.callback_query(F.data == 'giraffe_back')#возвращение к жирафа   
 async def giraffe_back(callback: CallbackQuery):
     await Giraffe(callback)
 
