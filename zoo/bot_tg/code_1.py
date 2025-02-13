@@ -232,7 +232,6 @@ async def giraffe_back_to_menu(callback: CallbackQuery):
     await start(callback.message)
 
 
-
 @dp.message(F.text == 'Покупка билетов')
 async def buy_1(message: Message):
     today = datetime.now()
