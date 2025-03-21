@@ -17,13 +17,15 @@ from datetime import datetime
 from datetime import time
 import random
 import qrcode
+from dotenv import load_dotenv
 
-API_TOKEN = '7308111652:AAGFNTaxBFebMaW5YnljR44Ph3aaS2jw0Wg'
+load_dotenv()
+
+bot = Bot(os.getenv('TOKEN'))
 
 import keabord as kb
 import database_two as db_code
 # Создаем объект бота
-bot = Bot(token=API_TOKEN)
 
 # Создаем диспетчер
 dp = Dispatcher()
