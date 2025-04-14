@@ -85,10 +85,12 @@ async def Tiger_time(callback: CallbackQuery):
 
 @dp.callback_query(F.data == 'back_tiger')# возвращает описание о тигре 
 async def Tiger_back(callback: CallbackQuery):
+    await callback.message.delete()
     await Tiger(callback)
                                   
 @dp.callback_query(F.data == 'back_menu_tiger')#возвращает в меню
 async def Tiger_back_to_menu(callback: CallbackQuery):
+    await callback.message.delete()
     await callback.answer('Вы ыернулись в меню')
     await start(callback.message)
 
@@ -98,6 +100,7 @@ async def Tiger_back_to_menu(callback: CallbackQuery):
 
 @dp.callback_query(F.data == 'slon')#описание слона
 async def Slon(callback: CallbackQuery):
+    await callback.message.delete()
     photo_path = animal[6]
     await callback.answer()
     await callback.message.answer_photo(photo=types.FSInputFile(
@@ -121,16 +124,19 @@ async def Slon_time(callback: CallbackQuery):
     
 @dp.callback_query(F.data == 'back_slon')#возвращение к слону
 async def Slon_back(callback: CallbackQuery):
+    await callback.message.delete()
     await Slon(callback)
 
 @dp.callback_query(F.data == 'back_menu_slon')#возвращение в меню
 async def Slon_back_to_menu(callback: CallbackQuery):
+    await callback.message.delete()
     await callback.answer('Вы вернулись в меню')
     await start(callback.message)
 
 
 @dp.callback_query(F.data == 'begemot')
 async def Begemot(callback: CallbackQuery):
+    await callback.message.delete()
     photo_path = animal[7]
     await callback.answer()
     await callback.message.answer_photo(photo=types.FSInputFile(
@@ -154,10 +160,13 @@ async def Begemot_time(callback: CallbackQuery):
     
 @dp.callback_query(F.data == 'begemot_back')#возвращение к слону
 async def Begemot_back(callback: CallbackQuery):
+    await callback.message.delete()
+    await callback.message.delete()
     await Begemot(callback)
 
 @dp.callback_query(F.data == 'back_menu_begemot')#возвращение в меню
 async def Begemot_back_to_menu(callback: CallbackQuery):
+    await callback.message.delete()
     await callback.answer('Вы вернулись в меню')
     await start(callback.message)
 
@@ -166,6 +175,7 @@ async def Begemot_back_to_menu(callback: CallbackQuery):
     
 @dp.callback_query(F.data == 'leniv')
 async def Leniv(callback: CallbackQuery):
+    await callback.message.delete()
     photo_path = animal[8]
     await callback.answer()
     await callback.message.answer_photo(photo=types.FSInputFile(
@@ -189,10 +199,12 @@ async def leniv_time(callback: CallbackQuery):
     
 @dp.callback_query(F.data == 'leniv_back')#возвращение к ленивцу
 async def leniv_back(callback: CallbackQuery):
+    await callback.message.delete()
     await Leniv(callback)
 
 @dp.callback_query(F.data == 'back_menu_leniv')#возвращение в меню
 async def leniv_back_to_menu(callback: CallbackQuery):
+    await callback.message.delete()
     await callback.answer('Вы вернулись в меню')
     await start(callback.message)
 
@@ -200,6 +212,7 @@ async def leniv_back_to_menu(callback: CallbackQuery):
 
 @dp.callback_query(F.data == 'giraffe')
 async def Giraffe(callback: CallbackQuery):
+    await callback.message.delete()
     photo_path= animal[9]
     await callback.answer()
     await callback.message.answer_photo(photo=types.FSInputFile(
@@ -226,10 +239,12 @@ async def giraffe_time(callback: CallbackQuery):
     
 @dp.callback_query(F.data == 'giraffe_back')#возвращение к жирафа   
 async def giraffe_back(callback: CallbackQuery):
+    await callback.message.delete()
     await Giraffe(callback)
 
 @dp.callback_query(F.data == 'back_menu_giraffe')#возвращение в меню
 async def giraffe_back_to_menu(callback: CallbackQuery):
+    await callback.message.delete()
     await callback.answer('Вы вернулись в меню')
     await start(callback.message)
 
