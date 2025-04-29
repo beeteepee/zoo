@@ -1,3 +1,4 @@
+
 import os
 import asyncio
 import sqlite3
@@ -22,6 +23,11 @@ from dotenv import load_dotenv
 load_dotenv()
 
 bot = Bot(os.getenv('TOKEN'))
+
+ 
+
+
+
 
 import keabord as kb
 import database_two as db_code
