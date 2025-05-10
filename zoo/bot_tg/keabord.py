@@ -13,8 +13,16 @@ main = InlineKeyboardMarkup(inline_keyboard=[
 ])
 
 
+
+help = ReplyKeyboardMarkup(keyboard=[
+    [KeyboardButton(text='Как купить билет в зоопарк через бота?')],
+    [KeyboardButton(text='Какие типы билетов доступны? (взрослый, детский, льготный, семейный, групповой)')],
+    [KeyboardButton(text='Нужно ли распечатывать билет или можно показать электронный?')],
+    [KeyboardButton(text='Как получить купленный билет? (PDF, QR-код в Telegram, ссылка)?')],
+    [KeyboardButton(text='В меню')]
+])
+
 tiger = InlineKeyboardMarkup(inline_keyboard=[
-    
     [InlineKeyboardButton(text='Расписание', callback_data='time'),
     InlineKeyboardButton(text='Место обитания', callback_data='gues')],
     [InlineKeyboardButton(text='Назад', callback_data='back_menu_tiger')]
@@ -65,7 +73,8 @@ giraffe_back = InlineKeyboardMarkup(inline_keyboard=[
 
 buy = ReplyKeyboardMarkup(keyboard=[
     [KeyboardButton(text='Покупка билетов')],
-    [KeyboardButton(text='Мои билеты')]
+    [KeyboardButton(text='Мои билеты')],
+    [KeyboardButton(text='Помощь')]
 ],
 resize_keyboard=True
 )

@@ -59,9 +59,33 @@ class reg(StatesGroup):
 # Функция для получения данных о животном по id 
 @dp.message(Command(commands=['start', 'menu']))
 async def start (message: Message):
-    await message.answer(text='Привет! Выбери животное.', reply_markup=kb.main)
-    await message.answer(text='Так же вы можете купить билеты.', reply_markup=kb.buy)
+    await message.answer(text='Здравствуйте! В данном боте вы можете ознакомиться с некоторыми животными из зоопарка и купить билеты. \n\nБот является прототипом и не связан с зоопарком.', reply_markup=kb.main)
+    await message.answer(text='Вы можете купить билеты в кнопках ниже.', reply_markup=kb.buy)
 
+@dp.message(F.text == 'В меню')
+async def start (message: Message):
+    await message.answer(text='Здравствуйте! В данном боте вы можете ознакомиться с некоторыми животными из зоопарка и купить билеты. \n\nБот является прототипом и не связан с зоопарком.', reply_markup=kb.main)
+    await message.answer(text='Вы можете купить билеты в кнопках ниже.', reply_markup=kb.buy)
+#Хендлеры для вызова помощи
+@dp.message(F.text == 'Помощь')
+async def help(message: Message):
+    await message.answer(text='Выберите вопрос ниже:', reply_markup=kb.help)
+
+@dp.message(F.text == 'Как купить билет в зоопарк через бота?')
+async def help_how_buy(message: Message):
+    await message.answer("Нажмите в нижнем меню кнопку 'Покупка билетов', далее выберети тип и кол-во людей.")
+    
+@dp.message(F.text == 'Какие типы билетов доступны? (взрослый, детский, льготный, семейный, групповой)')
+async def help_how_buy(message: Message):
+    await message.answer("Бывают типы - детский, взрослый так же совмещеный (детский и взрослый).")
+
+@dp.message(F.text == 'Нужно ли распечатывать билет или можно показать электронный?')
+async def help_how_buy(message: Message):
+    await message.answer("Нет, все сделанно в удобном формате и вы просто можете показать qr-код на телефоне.")
+
+@dp.message(F.text == 'Как получить купленный билет? (PDF, QR-код в Telegram, ссылка)?')
+async def help_how_buy(message: Message):
+    await message.answer("Билет приходит в чате с ботов в виде фотографии.")
 
 
 
@@ -336,13 +360,13 @@ async def reg_ticket(message: Message, state: FSMContext):
 async def ticket(callback: CallbackQuery, state: FSMContext):
     await state.set_state(reg.first_big_and_small)
     await callback.answer()
-    await callback.message.answer("Сколько билетов типа 'взрослый' вы хотите взять?.")
+    await callback.message.answer("Сколько билетов типа 'взрослый' вы хотите взять?")
 
 @dp.message(reg.first_big_and_small)
 async def reg_ticket(message: Message, state: FSMContext):
     await state.update_data(first=message.text)
     await state.set_state(reg.second_big_and_small)
-    await message.answer("Сколько билетов типа 'детский' вы хотите взять?.")
+    await message.answer("Сколько билетов типа 'детский' вы хотите взять?")
 
 @dp.message(reg.second_big_and_small)
 async def reg_ticket_second(message: Message, state: FSMContext):
